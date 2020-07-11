@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,装饰器,decorator," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景介绍我们这里使用现实中饭店中的后厨做类比，一个后厨可能有多个厨师，分别做不同的菜系的菜，比如川菜、鲁菜等。假设他们在完成一道菜时都有洗菜，切菜，炒菜，摆盘操作，其中不可替代的、最主要的操作是炒菜。 在编程中，有一种情形很常见：在很多函数（不同的厨师）执行（做菜）前/执行后都要执行一些相同/相似的操作（洗菜、切菜、摆盘）。例如：  很多web接口视图函数执行前生成用户实例、检验用户登录状态、是否">
+<meta name="keywords" content="Python,装饰器,decorator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python--装饰器">
+<meta property="og:url" content="http://blog.weblist.site/技术/Python/装饰器/python-装饰器/index.html">
+<meta property="og:site_name" content="爱生活没道理">
+<meta property="og:description" content="背景介绍我们这里使用现实中饭店中的后厨做类比，一个后厨可能有多个厨师，分别做不同的菜系的菜，比如川菜、鲁菜等。假设他们在完成一道菜时都有洗菜，切菜，炒菜，摆盘操作，其中不可替代的、最主要的操作是炒菜。 在编程中，有一种情形很常见：在很多函数（不同的厨师）执行（做菜）前/执行后都要执行一些相同/相似的操作（洗菜、切菜、摆盘）。例如：  很多web接口视图函数执行前生成用户实例、检验用户登录状态、是否">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-30T05:19:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python--装饰器">
+<meta name="twitter:description" content="背景介绍我们这里使用现实中饭店中的后厨做类比，一个后厨可能有多个厨师，分别做不同的菜系的菜，比如川菜、鲁菜等。假设他们在完成一道菜时都有洗菜，切菜，炒菜，摆盘操作，其中不可替代的、最主要的操作是炒菜。 在编程中，有一种情形很常见：在很多函数（不同的厨师）执行（做菜）前/执行后都要执行一些相同/相似的操作（洗菜、切菜、摆盘）。例如：  很多web接口视图函数执行前生成用户实例、检验用户登录状态、是否">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.weblist.site/技术/Python/装饰器/python-装饰器/"/>
+
+
+
+
+
+  <title>Python--装饰器 | 爱生活没道理</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?08602829e40aed39037446fe7ea1aa6e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱生活没道理</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">做一个快乐的人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            文章分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-技术标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            技术标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-时间轴">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-学习计划">
+          <a href="/scheme/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            学习计划
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.weblist.site/技术/Python/装饰器/python-装饰器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="爱生活没道理">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/13713981?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱生活没道理">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python--装饰器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T11:04:36+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/Python/装饰器/" itemprop="url" rel="index">
+                    <span itemprop="name">装饰器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/技术/Python/装饰器/python-装饰器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/技术/Python/装饰器/python-装饰器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p>我们这里使用现实中饭店中的后厨做类比，一个后厨可能有多个厨师，分别做不同的菜系的菜，比如川菜、鲁菜等。<br>假设他们在完成一道菜时都有洗菜，切菜，炒菜，摆盘操作，其中不可替代的、最主要的操作是炒菜。</p>
+<p>在编程中，有一种情形很常见：在很多函数（不同的厨师）执行（做菜）前/执行后都要执行一些相同/相似的操作（洗菜、切菜、摆盘）。例如：</p>
+<ul>
+<li><p>很多web接口视图函数执行前生成用户实例、检验用户登录状态、是否具有某些权限等</p>
+</li>
+<li><p>在执行前，希望将函数的参数通过日志等形式记录下来</p>
+</li>
+<li><p>在执行后，希望处理返回值</p>
+</li>
+</ul>
+<a id="more"></a>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><p>我们使用<code>add</code>, <code>minus</code>, <code>multiply</code>, <code>divide</code>几个函数代表我们在项目中的业务逻辑。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a + b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minus</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a - b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiply</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a * b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">divide</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a / b</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>现在需要在这些函数执行前打印输入参数，在执行后将结果<code>+1</code>，并打印。对于一个函数而言，我们很容易想到在函数内增加一些代码，如下面的示例：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    print(<span class="string">'parameters are %s, %s'</span> % (a, b))</span><br><span class="line">    result = a + b</span><br><span class="line">    result += <span class="number">1</span></span><br><span class="line">    print(<span class="string">'result is %s'</span> % result)</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>这种方法达到了目的，但是如果有大量的函数都这样写，无疑耗时又愚蠢。如果后期有变动，比如更改打印的字符串，或者将结果变为<code>*2</code>操作，这种方法又不方便统一修改。</p>
+<p>类比饭店后厨，可以让厨师只负责炒菜，洗菜、切菜、摆盘的工作可以交给助手（装饰器函数）来处理。<br>这样的优点是，在厨师炒菜前后（函数执行前后），助手统一控制了厨师（函数）拿到的原材料（输入）和成菜（输出）。<br>如果老板说菜不切片，要切成丁（控制输入），那只要告诉助手就可以了，不需要告诉每个厨师；对于成菜（输出）的改变也一样适用。</p>
+<p>那么回到代码上，关键就在于装饰器函数的编写和使用。</p>
+<h1 id="装饰器函数"><a href="#装饰器函数" class="headerlink" title="装饰器函数"></a>装饰器函数</h1><p>装饰器的原理是重新定义目标函数，重新定义的目标函数具有原来目标函数的逻辑和新增加装饰器内函数的逻辑。这样既增加了额外的逻辑，又不需要改动原来的调用。</p>
+<p>由于<code>Python</code>内的函数是<code>一等公民</code>（函数是实例；函数可以赋值给变量；可以将函数作为参数传递给其他函数；函数可以作为返回值；可以在数据结构中存储函数，如<code>list</code>，<code>dict</code>、<code>tuple</code>等）。</p>
+<p>那么就有了下面这种函数：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        print(*args)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        result += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrap</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a + b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minus</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a - b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">add = my_decorator(add)</span><br><span class="line">minus = my_decorator(minus)</span><br></pre></td></tr></table></figure>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>下面分析执行过程：</p>
+<ul>
+<li><p>重新定义<code>add</code>函数。执行<code>add = my_decorator(add)</code>时，<code>my_decorator</code>返回内部的<code>wrap</code>函数，但不执行。</p>
+</li>
+<li><p>调用重新定义的<code>add</code>函数。如果执行<code>add(1, 2)</code>，相当于执行了<code>wrap(1, 2)</code>，<code>wrap</code>执行时先执行<code>print(*args)</code>，<br>然后执行<code>result = func(*args, **kwargs)</code>，而<code>func</code>就是在重新定义是时传入的<code>add</code>函数，所以这里会执行原来的<code>add</code>函数，并将结果赋值给<code>result</code>，之后就进行<code>+1</code>操作，然后返回结果。</p>
+</li>
+</ul>
+<p>如果每一个需要装饰的函数都要执行<code>add = my_decorator(add)</code>，也一样繁琐，所以<code>Python</code>内就有了<code>@</code>符号。定义目标函数时，在函数的上一行使用<code>@</code> + 装饰器函数的方法可以自动的修改目标函数，和手动重新定义的效果一样。例如，下面这段代码效果和上面的一样：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        print(*args)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        result += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrap</span><br><span class="line">    </span><br><span class="line"><span class="meta">@my_decorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a + b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="meta">@my_decorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minus</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a - b</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h1 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h1><p>在这个基础上还可以进行扩展，例如，有的函数结果需要<code>+1</code>，有的函数结果需要<code>-2</code>，那么这样改动</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_decorator</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            print(*args)</span><br><span class="line">            result = func(*args, **kwargs)</span><br><span class="line">            result += num</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> wrap</span><br><span class="line">    <span class="keyword">return</span> inner_decorator</span><br><span class="line">    </span><br><span class="line"><span class="meta">@my_decorator(1)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a + b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="meta">@my_decorator(-2)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minus</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    result = a - b</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>这和下面的代码是等效的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add = my_decorator(1)(add)</span><br><span class="line">minus = my_decorator(-2)(minus)</span><br></pre></td></tr></table></figure>
+<p>上面的代码可以理解为，<code>my_decorator</code>只是为了接收参数，来定义<code>inner_decorator</code>。</p>
+<p>这样在装饰<code>add</code>时，先执行了<code>my_decorator(1)</code>，返回了<code>inner_decorator</code>，然后由<code>inner_decorator</code>装饰<code>add</code>函数。</p>
+<h1 id="保留元信息"><a href="#保留元信息" class="headerlink" title="保留元信息"></a>保留元信息</h1><p>参考<a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c09/p02_preserve_function_metadata_when_write_decorators.html" target="_blank" rel="noopener">《python3-cookbook》9.2 创建装饰器时保留函数元信息</a></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_decorator_common</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_decorator_wraps</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@my_decorator_common</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="string">"""get sum of two parameters</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param a: </span></span><br><span class="line"><span class="string">    :param b: </span></span><br><span class="line"><span class="string">    :return: a + b</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    result = a + b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@my_decorator_wraps</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minus</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="string">"""get difference of two parameters</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param a: </span></span><br><span class="line"><span class="string">    :param b: </span></span><br><span class="line"><span class="string">    :return: a - b</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    result = a - b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(add.__doc__)</span><br><span class="line">    print(minus.__doc__)</span><br></pre></td></tr></table></figure>
+<p>上面的示例可以得到如下输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">None</span><br><span class="line">get difference of two parameters</span><br><span class="line"></span><br><span class="line">    :param a: </span><br><span class="line">    :param b: </span><br><span class="line">    :return: a - b</span><br></pre></td></tr></table></figure>
+<p>可以看到没有使用<code>wraps</code>的装饰器会丢失函数的<code>__doc__</code>属性。原因就是装饰器的原理是<code>add = my_decorator(add)</code>，这个过程没有保留函数的元信息。</p>
+<p>如果要保留函数的元信息，比如名字、文档字符串、注解和参数签名等，需要在装饰器内使用<code>wraps</code>。这种做法很有必要，比如在编写<code>Flask</code>装饰器时。</p>
+<p><a href="https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/#login-required-decorator" target="_blank" rel="noopener">Flask Decorator: Login Required Decorator</a></p>
+<h1 id="解除装饰器"><a href="#解除装饰器" class="headerlink" title="解除装饰器"></a>解除装饰器</h1><p>对于已经使用了<code>functools.wraps</code>装饰器，且只有一个装饰器的函数，可以使用<code>__wrapped__</code>方法调用原函数。</p>
+<p>详细可参考<a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c09/p03_unwrapping_decorator.html" target="_blank" rel="noopener">《python3-cookbook》9.3 解除一个装饰器</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/装饰器/" rel="tag"># 装饰器</a>
+          
+            <a href="/tags/decorator/" rel="tag"># decorator</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/技术/Python/协程与并发/python协程与并发——yield/" rel="next" title="Python协程与并发——yield">
+                <i class="fa fa-chevron-left"></i> Python协程与并发——yield
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/读书笔记/《VMware-NSX-Network-Virtualization-Fundamentals》/读《vmware-nsx-network-virtualization-fundamentals》/" rel="prev" title="读《VMware NSX Network Virtualization Fundamentals》">
+                读《VMware NSX Network Virtualization Fundamentals》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars2.githubusercontent.com/u/13713981?s=460&v=4"
+                alt="爱生活没道理" />
+            
+              <p class="site-author-name" itemprop="name">爱生活没道理</p>
+              <p class="site-description motion-element" itemprop="description">爱生活没道理的博客，记录生活、学习、工作，学会享受生活，努力做一个快乐的人、有趣的人。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/aishenghuomeidaoli" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2770323867" target="_blank" title="WeiBo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>WeiBo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:aishenghuomeidaoli@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码示例"><span class="nav-number">2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#装饰器函数"><span class="nav-number">3.</span> <span class="nav-text">装饰器函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码分析"><span class="nav-number">4.</span> <span class="nav-text">代码分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#传递参数"><span class="nav-number">5.</span> <span class="nav-text">传递参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保留元信息"><span class="nav-number">6.</span> <span class="nav-text">保留元信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解除装饰器"><span class="nav-number">7.</span> <span class="nav-text">解除装饰器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">爱生活没道理</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: decodeURI(window.location.pathname),
+            owner: 'aishenghuomeidaoli',
+            repo: 'aishenghuomeidaoli.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                proxy_gateway: 'https://gh-oauth.weblist.site/',
+            
+                client_id: '65a5ff236b0f146976f8'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

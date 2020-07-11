@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Redis是一个开源的、高性能的、基于键值对的缓存与存储系统，通过提供多种键值数据类型来适应不同场景下的缓存与存储需求。 Redis是REmoteDIctionaryServer（远程字典服务器）的缩写，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。 到目前为止Redis支持的键值数据类型如下：  字符串类型 散列类型 列表类型 集合类型 有序集合类型  Redis虽然是作为">
+<meta name="keywords" content="爱生活没道理,博客,Python,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读《Redis入门指南（第二版）》">
+<meta property="og:url" content="http://blog.weblist.site/技术/读《redis入门指南（第二版）》/index.html">
+<meta property="og:site_name" content="爱生活没道理">
+<meta property="og:description" content="Redis是一个开源的、高性能的、基于键值对的缓存与存储系统，通过提供多种键值数据类型来适应不同场景下的缓存与存储需求。 Redis是REmoteDIctionaryServer（远程字典服务器）的缩写，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。 到目前为止Redis支持的键值数据类型如下：  字符串类型 散列类型 列表类型 集合类型 有序集合类型  Redis虽然是作为">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-03-11T00:20:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读《Redis入门指南（第二版）》">
+<meta name="twitter:description" content="Redis是一个开源的、高性能的、基于键值对的缓存与存储系统，通过提供多种键值数据类型来适应不同场景下的缓存与存储需求。 Redis是REmoteDIctionaryServer（远程字典服务器）的缩写，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。 到目前为止Redis支持的键值数据类型如下：  字符串类型 散列类型 列表类型 集合类型 有序集合类型  Redis虽然是作为">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.weblist.site/技术/读《redis入门指南（第二版）》/"/>
+
+
+
+
+
+  <title>读《Redis入门指南（第二版）》 | 爱生活没道理</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?08602829e40aed39037446fe7ea1aa6e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱生活没道理</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">做一个快乐的人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            文章分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-技术标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            技术标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-时间轴">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-学习计划">
+          <a href="/scheme/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            学习计划
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.weblist.site/技术/读《redis入门指南（第二版）》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="爱生活没道理">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/13713981?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱生活没道理">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">读《Redis入门指南（第二版）》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-15T08:54:41+08:00">
+                2020-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/技术/读《redis入门指南（第二版）》/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/技术/读《redis入门指南（第二版）》/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Redis是一个开源的、高性能的、基于键值对的缓存与存储系统，通过提供多种键值数据类型来适应不同场景下的缓存与存储需求。</p>
+<p>Redis是REmoteDIctionaryServer（远程字典服务器）的缩写，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。</p>
+<p>到目前为止Redis支持的键值数据类型如下：</p>
+<ul>
+<li>字符串类型</li>
+<li>散列类型</li>
+<li>列表类型</li>
+<li>集合类型</li>
+<li>有序集合类型</li>
+</ul>
+<p>Redis虽然是作为数据库开发的，但由于其提供了丰富的功能，越来越多的人将其用作缓存、队列系统等。</p>
+<a id="more"></a>
+<p>讨论关于Redis和Memcached优劣的讨论一直是一个热门的话题。<br>在性能上Redis是单线程模型，而Memcached支持多线程，所以在多核服务器上后者的性能理论上相对更高一些。<br>然而，前面已经介绍过，Redis的性能已经足够优异，在绝大部分场合下其性能都不会成为瓶颈，所以在使用时更应该关心的是二者在功能上的区别。<br>随着Redis3.0的推出，标志着Memcached几乎所有功能都成为了Redis的子集。<br>同时，Redis对集群的支持使得Memcached原有的第三方集群工具不再成为优势。<br>因此，在新项目中使用Redis代替Memcached将会是非常好的选择。</p>
+<h2 id="启动和停止Redis"><a href="#启动和停止Redis" class="headerlink" title="启动和停止Redis"></a>启动和停止Redis</h2><p>Redis可执行文件说明</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>redis-server</td>
+<td>Redis服务器</td>
+</tr>
+<tr>
+<td>redis-cli</td>
+<td>Redis命令行客户端</td>
+</tr>
+<tr>
+<td>redis-benchmark</td>
+<td>Redis性能测试工具</td>
+</tr>
+<tr>
+<td>redis-check-aof</td>
+<td>AOF文件修复工具</td>
+</tr>
+<tr>
+<td>redis-check-dump</td>
+<td>RDB文件检查工具</td>
+</tr>
+<tr>
+<td>redis-sentinel</td>
+<td>Sentinel服务器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Redis启动方式"><a href="#Redis启动方式" class="headerlink" title="Redis启动方式"></a>Redis启动方式</h3><ol>
+<li>直接启动</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-server</span><br><span class="line">redis-server --port 6380</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通过初始化脚本启动</li>
+</ol>
+<p>在Redis源代码目录的utils文件夹中有一个名为 <a href="https://github.com/antirez/redis/blob/unstable/utils/redis_init_script" target="_blank" rel="noopener">redis_init_script</a> 的初始化脚本文件，内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Simple Redis init.d script conceived to work on Linux systems</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> as it does use of the /proc filesystem.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## BEGIN INIT INFO</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Provides:     redis_6379</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Default-Start:        2 3 4 5</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Default-Stop:         0 1 6</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Short-Description:    Redis data structure server</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Description:          Redis data structure server. See https://redis.io</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## END INIT INFO</span></span></span><br><span class="line"></span><br><span class="line">REDISPORT=6379</span><br><span class="line">EXEC=/usr/local/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/bin/redis-cli</span><br><span class="line"></span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF="/etc/redis/$&#123;REDISPORT&#125;.conf"</span><br><span class="line"></span><br><span class="line">case "$1" in</span><br><span class="line">    start)</span><br><span class="line">        if [ -f $PIDFILE ]</span><br><span class="line">        then</span><br><span class="line">                echo "$PIDFILE exists, process is already running or crashed"</span><br><span class="line">        else</span><br><span class="line">                echo "Starting Redis server..."</span><br><span class="line">                $EXEC $CONF</span><br><span class="line">        fi</span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        if [ ! -f $PIDFILE ]</span><br><span class="line">        then</span><br><span class="line">                echo "$PIDFILE does not exist, process is not running"</span><br><span class="line">        else</span><br><span class="line">                PID=$(cat $PIDFILE)</span><br><span class="line">                echo "Stopping ..."</span><br><span class="line">                $CLIEXEC -p $REDISPORT shutdown</span><br><span class="line">                while [ -x /proc/$&#123;PID&#125; ]</span><br><span class="line">                do</span><br><span class="line">                    echo "Waiting for Redis to shutdown ..."</span><br><span class="line">                    sleep 1</span><br><span class="line">                done</span><br><span class="line">                echo "Redis stopped"</span><br><span class="line">        fi</span><br><span class="line">        ;;</span><br><span class="line">    *)</span><br><span class="line">        echo "Please use start or stop as first argument"</span><br><span class="line">        ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<p><strong>（1）配置初始化脚本。</strong></p>
+<p>首先将初始化脚本复制到/etc/init.d目录中，文件名为redis_端口号，其中端口号表示要让Redis监听的端口号，客户端通过该端口连接Redis。<br>然后修改脚本第6行的REDISPORT变量的值为同样的端口号。</p>
+<p><strong>（2）建立需要的文件夹。</strong></p>
+<p>建立表2-2中列出的目录。</p>
+<table>
+<thead>
+<tr>
+<th>目录名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/etc/redis</td>
+<td>存放Redis的配置文件</td>
+</tr>
+<tr>
+<td>/var/redis/端口号</td>
+<td>存放Redis的持久化文件</td>
+</tr>
+</tbody>
+</table>
+<p><strong>（3）修改配置文件。</strong></p>
+<p>首先将配置文件模板（见2.4节介绍）复制到/etc/redis目录中，以端口号命名（如“6379.conf”），然后按照表23对其中的部分参数进行编辑。<br>表23需要修改的配置及说明</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>daemonize</td>
+<td>yes</td>
+<td>使Redis以守护进程模式运行</td>
+</tr>
+<tr>
+<td>pidfile</td>
+<td>/var/run/redis_端口号.pid</td>
+<td>设置Redis的PID文件位置</td>
+</tr>
+<tr>
+<td>port</td>
+<td>端口号</td>
+<td>设置Redis监听的端口号</td>
+</tr>
+<tr>
+<td>dir</td>
+<td>/var/redis/端口号</td>
+<td>设置持久化文件存放位置</td>
+</tr>
+</tbody>
+</table>
+<p>﻿现在就可以使用/etc/init.d/redis_端口号start来启动Redis了，而后需要执行下面的命令使Redis随系统自动启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo updaterc.dredis_端口号defaults</span></span><br></pre></td></tr></table></figure>
+<h3 id="停止Redis"><a href="#停止Redis" class="headerlink" title="停止Redis"></a>停止Redis</h3><p>考虑到Redis有可能正在将内存中的数据同步到硬盘中，强行终止Redis进程可能会导致数据丢失。<br>正确停止Redis的方式应该是向Redis发送SHUTDOWN命令，方法为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">rediscli</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">SHUTDOWN</span></span><br></pre></td></tr></table></figure>
+<p>当Redis收到SHUTDOWN命令后，会先断开所有客户端连接，然后根据配置执行持久化，最后完成退出。<br>Redis可以妥善处理SIGTERM信号，所以使用kill Redis进程的PID也可以正常结束Redis，效果与发送SHUTDOWN命令一样。</p>
+<p>##﻿Redis命令行客户端</p>
+<h3 id="命令返回值"><a href="#命令返回值" class="headerlink" title="命令返回值"></a>命令返回值</h3><ol>
+<li>状态回复</li>
+</ol>
+<p>状态回复（status reply）是最简单的一种回复，比如向Redis发送SET命令设置某个键的值时，Redis会回复状态OK表示设置成功。<br>另外之前演示的对PING命令的回复PONG也是状态回复。状态回复直接显示状态信息，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">PING</span></span><br><span class="line">PONG</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>错误回复</li>
+</ol>
+<p>当出现命令不存在或命令格式有错误等情况时Redis会返回错误回复（error reply）。<br>错误回复以(error)开头，并在后面跟上错误信息。<br>如执行一个不存在的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">ERRORCOMMEND</span></span><br><span class="line">(error)ERR unknown command 'ERRORCOMMEND'</span><br></pre></td></tr></table></figure>
+<p>在2.6版本时，错误信息均是以“ERR”开头，而在2.8版以后，部分错误信息会以具体的错误类型开头，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">LPUSH key 1</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash">GET key</span></span><br><span class="line">(error)WRONGTYPE Operation against a key holding the wrong kind of value</span><br></pre></td></tr></table></figure>
+<p>这里错误信息开头的“WRONGTYPE”就表示类型错误，这个改进使得在调试时能更容易地知道遇到的是哪种类型的错误。</p>
+<ol start="3">
+<li>整数回复</li>
+</ol>
+<p>Redis虽然没有整数类型，但是却提供了一些用于整数操作的命令，如递增键值的INCR命令会以整数形式返回递增后的键值。<br>除此之外，一些其他命令也会返回整数，如可以获取当前数据库中键的数量的DBSIZE命令等。<br>整数回复（integer reply）以(integer)开头，并在后面跟上整数数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">INCR foo</span></span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>字符串回复</li>
+</ol>
+<p>字符串回复（bulk reply）是最常见的一种回复类型，当请求一个字符串类型键的键值或一个其他类型键中的某个元素时就会得到一个字符串回复。<br>字符串回复以双引号包裹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">GET foo </span></span><br><span class="line">"1"</span><br></pre></td></tr></table></figure>
+<p>特殊情况是当请求的键值不存在时会得到一个空结果，显示为(nil)。如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">GET noexists</span></span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>多行字符串回复</li>
+</ol>
+<p>多行字符串回复（multi bulk reply）同样很常见，如当请求一个非字符串类型键的元素列表时就会收到多行字符串回复。<br>多行字符串回复中的每行字符串都以一个序号开头，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash">KEYS * </span></span><br><span class="line">1) "bar"</span><br><span class="line">2) "foo"</span><br></pre></td></tr></table></figure>
+<p>提示KEYS命令的作用是获取数据库中符合指定规则的键名，由于读者的Redis中还没有存储数据，所以得到的返回值应该是（empty list or set）。<br>3.1节会具体介绍KEYS命令，此处读者只需了解多行字符串回复的格式即可。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>启用配置文件的方法是在启动时将配置文件的路径作为启动参数传递给redis-server，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">redis-server /path/to/redis.conf</span></span><br></pre></td></tr></table></figure>
+<p>通过启动参数传递同名的配置选项会覆盖配置文件中相应的参数，就像这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">redis-server /path/to/redis.conf --loglevel warning</span></span><br></pre></td></tr></table></figure>
+<p>Redis提供了一个配置文件的模板redis.conf，位于源代码目录的根目录中。<br>除此之外还可以在Redis运行时通过CONFIGSET命令在不重新启动Redis的情况下动态修改部分Redis配置。就像这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> CONFIG SET loglevel warning</span></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>并不是所有的配置都可以使用<code>CONFIG SET</code>命令修改，附录B列出了哪些配置能够使用该命令修改。<br>同样在运行的时候也可以使用CONFIGGET命令获得Redis当前的配置情况，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> CONFIG GET loglevel</span></span><br><span class="line">1) "loglevel"</span><br><span class="line">2) "warning"</span><br></pre></td></tr></table></figure>
+<p>其中第一行字符串回复表示的是选项名，第二行即是选项值。</p>
+<h2 id="多数据库"><a href="#多数据库" class="headerlink" title="多数据库"></a>多数据库</h2><p>每个数据库对外都是以一个从0开始的递增数字命名，Redis默认支持16个数据库，可以通过配置参数databases来修改这一数字。<br>客户端与Redis建立连接后会自动选择0号数据库，不过可以随时使用SELECT命令更换数据库，如要选择1号数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SELECT 1</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis[1]&gt;</span><span class="bash"> GET foo </span></span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+<p>然而这些以数字命名的数据库又与我们理解的数据库有所区别。<br>首先Redis不支持自定义数据库的名字，每个数据库都以编号命名，开发者必须自己记录哪些数据库存储了哪些数据。<br>另外Redis也不支持为每个数据库设置不同的访问密码，所以一个客户端要么可以访问全部数据库，要么连一个数据库也没有权限访问。<br>最重要的一点是多个数据库之间并不是完全隔离的，比如FLUSHALL命令可以清空一个Redis实例中所有数据库中的数据。<br><strong>综上所述，这些数据库更像是一种命名空间，而不适宜存储不同应用程序的数据。</strong><br>比如可以使用0号数据库存储某个应用生产环境中的数据，使用1号数据库存储测试环境中的数据，但不适宜使用0号数据库存储A应用的数据而使用1号数据库存储B应用的数据，不同的应用应该使用不同的Redis实例存储数据。<br>由于Redis非常轻量级，一个空Redis实例占用的内存只有1MB左右，所以不用担心多个Redis实例会额外占用很多内存。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h3><ol>
+<li>获得符合规则的键名列表</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KEYS pattern</span><br></pre></td></tr></table></figure>
+<p>pattern支持glob风格通配符格式，具体规则如表31所示。</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?</td>
+<td>匹配一个字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配任意个（包括0个）字符</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配括号间的任意字符，可以使用“-”符号表示一个范围，如a[b-d]可以匹配“ab”、“ac”和“ad”</td>
+</tr>
+<tr>
+<td>\x</td>
+<td>匹配字符x，用于转义符号。如需要匹配?就需要使用\?</td>
+</tr>
+</tbody>
+</table>
+<p>注意KEYS命令需要遍历Redis中的所有键，当键的数量较多时会影响性能，不建议在生产环境中使用。</p>
+<p>提示Redis不区分命令大小写，但在本书中均会使用大写字母表示Redis命令。</p>
+<ol start="2">
+<li>判断一个键是否存在</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">EXISTS key</span><br></pre></td></tr></table></figure>
+<p>如果键存在则返回整数类型1，否则返回0。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> EXISTS bar</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> EXISTS noexists</span></span><br><span class="line">(integer)0</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>删除键</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEL key [key…]</span><br></pre></td></tr></table></figure>
+<p>可以删除一个或多个键，返回值是删除的键的个数。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> DEL bar</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> DEL bar</span></span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+<p>第二次执行DEL命令时因为bar键已经被删除了，实际上并没有删除任何键，所以返回0。</p>
+<p>技巧<code>DEL</code>命令的参数不支持通配符，但我们可以结合Linux的管道和xargs命令自己实现删除所有符合规则的键。<br>比如要删除所有以“user:”开头的键，就可以执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli KEYS "user:*" | xargs redis-cli DEL</span><br></pre></td></tr></table></figure>
+<p>另外由于DEL命令支持多个键作为参数，所以还可以执行<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli DEL `redis-cli KEYS "user:*"`</span><br></pre></td></tr></table></figure></p>
+<p>来达到同样的效果，但是性能更好。</p>
+<ol start="4">
+<li>获得键值的数据类型</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TYPE key</span><br></pre></td></tr></table></figure>
+<p>TYPE命令用来获得键值的数据类型，返回值可能是string（字符串类型）、hash（散列类型）、list（列表类型）、set（集合类型）、zset（有序集合类型）。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SET foo 1</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> TYPE foo</span></span><br><span class="line">string</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> LPUSH bar 1</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> TYPE bar </span></span><br><span class="line">list</span><br></pre></td></tr></table></figure>
+<p>LPUSH命令的作用是向指定的列表类型键中增加一个元素，如果键不存在则创建它，3.4节会详细介绍。</p>
+<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><p>字符串类型是Redis中最基本的数据类型，它能存储任何形式的字符串，包括二进制数据。<br>你可以用其存储用户的邮箱、JSON化的对象甚至是一张图片。<br>一个字符串类型键允许存储的数据的最大容量是512MB。</p>
+<ol>
+<li>赋值与取值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET key value</span><br><span class="line">GET key</span><br></pre></td></tr></table></figure>
+<p>SET和GET是Redis中最简单的两个命令，它们实现的功能和编程语言中的读写变量相似，如key=”hello”在Redis中是这样表示的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SET key hello</span></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>想要读取键值则更简单：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> GET key</span></span><br><span class="line">"hello"</span><br></pre></td></tr></table></figure>
+<p>当键不存在时会返回空结果。</p>
+<ol start="2">
+<li>递增数字</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCR key</span><br></pre></td></tr></table></figure>
+<p>前面说过字符串类型可以存储任何形式的字符串，当存储的字符串是整数形式时，Redis提供了一个实用的命令INCR，其作用是让当前键值递增，并返回递增后的值，用法为：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCR num</span></span><br><span class="line">(integer) 1 </span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCR num</span></span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure></p>
+<p>当要操作的键不存在时会默认键值为0，所以第一次递增后的结果是1。<br>当键值不是整数时Redis会提示错误：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SET foo lorem</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCR foo</span></span><br><span class="line">(error) ERR value is not an integer or out of range</span><br></pre></td></tr></table></figure></p>
+<p>有些读者会想到可以借助GET和SET两个命令自己实现incr函数。<br>如果Redis同时只连接了一个客户端，那么上面的代码没有任何问题。<br>可当同一时间有多个客户端连接到Redis时则有可能出现竞态条件（race condition）。<br>例如有两个客户端A和B都要执行我们自己实现的incr函数并准备将同一个键的键值递增，当它们恰好同时执行到代码第二行时二者读取到的键值是一样的，<br>如“5”，而后它们各自将该值递增到“6”并使用SET命令将其赋给原键，结果虽然对键执行了两次递增操作，最终的键值却是“6”而不是预想中的“7”。<br><strong>包括INCR在内的所有Redis命令都是原子操作（atomic operation），无论多少个客户端同时连接，都不会出现上述情况。</strong><br>之后我们还会介绍利用事务（4.1节）和脚本（第6章）实现自定义的原子操作的方法。</p>
+<p><strong>实践</strong></p>
+<ol>
+<li>文章访问量统计</li>
+</ol>
+<p>Redis对于键的命名并没有强制的要求，但比较好的实践是用“对象类型\:对象ID\:对象属性”来命名一个键，如使用键user\:1\:friends来存储ID为1的用户的好友列表，使用一个名为post\:文章ID\:page.view的键来记录文章的访问量。<br>对于多个单词则推荐使用“.”分隔，一方面是沿用以前的习惯（Redis以前版本的键名不能包含空格等特殊字符），另一方面是在redis-cli中容易输入，无需使用双引号包裹。<br>另外为了日后维护方便，键的命名一定要有意义，如u\:1\:f的可读性显然不如user\:1\:friends好（虽然采用较短的名称可以节省存储空间，但由于键值的长度往往远远大于键名的长度，所以这部分的节省大部分情况下并不如可读性来得重要）。</p>
+<ol start="2">
+<li>生成自增ID</li>
+</ol>
+<p>那么怎么为每篇文章生成一个唯一ID呢？在关系数据库中我们通过设置字段属性为<code>AUTO_INCREMENT</code>来实现每增加一条记录自动为其生成一个唯一的递增ID的目的，<br>而在Redis中可以通过另一种模式来实现：<br>对于每一类对象使用名为 对象类型(复数形式)\:count的键（如users:count）来存储当前类型对象的数量，<br>每增加一个新对象时都使用INCR命令递增该键的值。INCR命令的返回值既是加入该对象后的当前类型的对象总数，又是该新增对象的ID。</p>
+<ol start="3">
+<li>存储文章数据</li>
+</ol>
+<p>由于每个字符串类型键只能存储一个字符串，而一篇博客文章是由标题、正文、作者与发布时间等多个元素构成的。<br>为了存储这些元素，我们需要使用序列化函数（如PHP中的serialize和JavaScript中的JSON.stringify）将它们转换成一个字符串。<br>除此之外因为字符串类型键可以存储二进制数据，所以也可以使用 <a href="https://msgpack.org/" target="_blank" rel="noopener">MessagePack</a> 进行序列化，速度更快，占用空间也更小。</p>
+<p><strong>命令拾遗</strong></p>
+<ol>
+<li>增加指定的整数</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCRBY key increment</span><br></pre></td></tr></table></figure>
+<p>INCRBY命令与INCR命令基本一样，只不过前者可以通过increment参数指定一次增加的数值，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCRBY bar 2</span></span><br><span class="line">(integer) 2 </span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCRBY bar 3</span></span><br><span class="line">(integer) 5</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>减少指定的整数</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DECR key</span><br><span class="line">DECRBY key decrement</span><br></pre></td></tr></table></figure>
+<p>DECR命令与INCR命令用法相同，只不过是让键值递减，例如：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> DECR bar</span></span><br><span class="line">(integer) 4</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> DECRBY key 2</span></span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>增加指定浮点数</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCRBYFLOAT key increment</span><br></pre></td></tr></table></figure>
+<p>INCRBYFLOAT命令类似INCRBY命令，差别是前者可以递增一个双精度浮点数，如：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCRBYFLOAT bar 2.7</span></span><br><span class="line">"4.7"</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> INCRBYFLOAT bar 5E+4</span></span><br><span class="line">"50004.69999999999999929"</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>﻿向尾部追加值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APPEND key value</span><br></pre></td></tr></table></figure>
+<p>APPEND作用是向键值的末尾追加value。如果键不存在则将该键的值设置为value，即相当于SET key value。<br>返回值是追加后字符串的总长度。如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SET key hello</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> APPEND key <span class="string">"world!"</span></span></span><br><span class="line">(integer) 12</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>获取字符串长度</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">STRLEN key</span><br></pre></td></tr></table></figure>
+<p>STRLEN命令返回键值的长度，如果键不存在则返回0。例如：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> STRLEN key </span></span><br><span class="line">(integer) 12</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> SET key 你好</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> STRLEN key</span></span><br><span class="line">(integer)6</span><br></pre></td></tr></table></figure></p>
+<p>前面提到了字符串类型可以存储二进制数据，所以它可以存储任何编码的字符串。<br>例子中Redis接收到的是使用UTF8编码的中文，由于“你”和“好”两个字的UTF8编码的长度都是3，所以此例中会返回6。</p>
+<ol start="6">
+<li>同时获得/设置多个键值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MGET key [key…]</span><br><span class="line">MSET key value [key value…]</span><br></pre></td></tr></table></figure>
+<p>MGET/MSET与GET/SET相似，不过MGET/MSET可以同时获得/设置多个键的键值。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> MSET key1 v1 key2 v2 key3 v3</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> GET key2 </span></span><br><span class="line">"v2"</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> MGET key1 key3</span></span><br><span class="line">1) "v1"</span><br><span class="line">2) "v3"</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>位操作</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GETBIT key offset</span><br><span class="line">SETBIT key offset value</span><br><span class="line">BITCOUNT key [start] [end]</span><br><span class="line">BITOP operation destkey key [key…]</span><br></pre></td></tr></table></figure>
+<p>利用位操作命令可以非常紧凑地存储布尔值。<br>比如如果网站的每个用户都有一个递增的整数ID，如果使用一个字符串类型键配合位操作来记录每个用户的性别（用户ID作为索引，二进制位值1和0表示男性和女性），那么记录100万个用户的性别只需占用100KB多的空间，而且由于GETBIT和SETBIT的时间复杂度都是O(1)，所以读取二进制位值性能很高。</p>
+<h3 id="散列类型"><a href="#散列类型" class="headerlink" title="散列类型"></a>散列类型</h3><p>我们现在已经知道Redis是采用字典结构以键值对的形式存储数据的，而散列类型（hash）的键值也是一种字典结构，其存储了字段（field）和字段值的映射，但字段值只能是字符串，不支持其他数据类型，换句话说，散列类型不能嵌套其他的数据类型。<br>一个散列类型键可以包含至多232−1个字段。<br>除了散列类型，Redis的其他数据类型同样不支持数据类型嵌套。<br>比如集合类型的每个元素都只能是字符串，不能是另一个集合或散列表等。<br>散列类型适合存储对象：使用对象类别和ID构成键名，使用字段表示对象的属性，而字段值则存储属性值。</p>
+<ol>
+<li>赋值与取值</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HSET key field value</span><br><span class="line">HGET key field</span><br><span class="line">HMSET key field value [fieldvalue…]</span><br><span class="line">HMGET key field [field…]</span><br><span class="line">HGET ALL key</span><br></pre></td></tr></table></figure>
+<p>HSET命令用来给字段赋值，而HGET命令用来获得字段的值。用法如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HSET car price 500</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HSET car name BMW</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HGET car name</span></span><br><span class="line">"BMW"</span><br></pre></td></tr></table></figure></p>
+<p>HSET命令的方便之处在于不区分插入和更新操作，修改数据时不用事先判断字段是否存在来决定要执行的是插入操作（update）还是更新操作（insert）。<br>当执行的是插入操作时（即之前字段不存在）HSET命令会返回1，当执行的是更新操作时（即之前字段已经存在）HSET命令会返回0。</p>
+<p>设置多个字段的值时，可以使用HMSET命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HMSET key field1 value1 field2 value2</span><br></pre></td></tr></table></figure>
+<p>相应地，HMGET命令可以同时获得多个字段的值：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HMGET car price name</span></span><br><span class="line">1) "500"</span><br><span class="line">2) "BMW"</span><br></pre></td></tr></table></figure></p>
+<p>如果想获取键中所有字段和字段值却不知道键中有哪些字段时，应该使用HGETALL命令。如：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HGETALL car</span></span><br><span class="line">1) "price"</span><br><span class="line">2) "500"</span><br><span class="line">3) "name"</span><br><span class="line">4) "BMW"</span><br></pre></td></tr></table></figure></p>
+<p>2．判断字段是否存在</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HEXISTS key field</span><br></pre></td></tr></table></figure>
+<p>HEXISTS命令用来判断一个字段是否存在。如果存在则返回1，否则返回0（如果键不存在也会返回0）。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HEXISTS car model</span></span><br><span class="line">(integer) 0</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HSET car model C200</span></span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HEXISTS car model</span></span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure></p>
+<p>3．当字段不存在时赋值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSETNX key field value</span><br></pre></td></tr></table></figure>
+<p>HSETNX命令与HSET命令类似，区别在于如果字段已经存在，HSETNX命令将不执行任何操作。HSETNX命令是原子操作，不用担心竞态条件。</p>
+<p>4．增加数字</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HINCRBY key field increment</span><br></pre></td></tr></table></figure>
+<p>上一节的命令拾遗部分介绍了字符串类型的命令INCRBY，HINCRBY命令与之类似，可以使字段值增加指定的整数。<br>散列类型没有HINCR命令，但是可以通过<code>HINCRBY key field 1</code>来实现。HINCRBY命令的示例如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">redis&gt;</span><span class="bash"> HINCRBY person score 60</span></span><br><span class="line">(integer) 60</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/技术/12要素/12要素应用-转载/" rel="next" title="12要素应用[转载]">
+                <i class="fa fa-chevron-left"></i> 12要素应用[转载]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/技术/视频测试/" rel="prev" title="视频测试">
+                视频测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars2.githubusercontent.com/u/13713981?s=460&v=4"
+                alt="爱生活没道理" />
+            
+              <p class="site-author-name" itemprop="name">爱生活没道理</p>
+              <p class="site-description motion-element" itemprop="description">爱生活没道理的博客，记录生活、学习、工作，学会享受生活，努力做一个快乐的人、有趣的人。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/aishenghuomeidaoli" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2770323867" target="_blank" title="WeiBo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>WeiBo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:aishenghuomeidaoli@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动和停止Redis"><span class="nav-number">1.</span> <span class="nav-text">启动和停止Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis启动方式"><span class="nav-number">1.1.</span> <span class="nav-text">Redis启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#停止Redis"><span class="nav-number">1.2.</span> <span class="nav-text">停止Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令返回值"><span class="nav-number">1.3.</span> <span class="nav-text">命令返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多数据库"><span class="nav-number">3.</span> <span class="nav-text">多数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">4.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础命令"><span class="nav-number">4.1.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串类型"><span class="nav-number">4.2.</span> <span class="nav-text">字符串类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#散列类型"><span class="nav-number">4.3.</span> <span class="nav-text">散列类型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">爱生活没道理</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: decodeURI(window.location.pathname),
+            owner: 'aishenghuomeidaoli',
+            repo: 'aishenghuomeidaoli.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                proxy_gateway: 'https://gh-oauth.weblist.site/',
+            
+                client_id: '65a5ff236b0f146976f8'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
