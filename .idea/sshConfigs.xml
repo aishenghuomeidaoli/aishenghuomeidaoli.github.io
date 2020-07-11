@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig authType="PASSWORD" host="106.14.193.52" id="a096e028-3ed2-496a-8343-213f809c087a" port="22222" customName="aliyun" nameFormat="CUSTOM" />
-    </configs>
-  </component>
-</project>
