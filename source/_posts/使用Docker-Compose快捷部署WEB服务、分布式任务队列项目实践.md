@@ -66,11 +66,88 @@ excerpt: true
 
 web容器负责提供web服务，使用的web框架是`Django`，镜像是基于Ubuntu，安装`Python`，`Mysql-Client`等系统软件与`Django`，`Celery`，`Redis`，`Uwsgi`等`Python`第三方库的自定义镜像。
 可以查看我自定义镜像的[Dockerfile](https://github.com/aishenghuomeidaoli/docker-django-mysql-celery/blob/master/web/Dockerfile)，镜像的配置确实完整，但Ubuntu:18.04在配置时区时不能自动通过，与Ubuntu:16.04有区别。
-所以不能根据这个Dockerfile打包镜像。我的方法是创建一个Ubuntu:18.04的容器，在容器内安装软件，然后根据容器打包镜像。
+所以不能根据这个Dockerfile打包镜像。我是创建Ubuntu:18.04的容器，安装软件后，根据容器打包镜像。
 
-指定镜像后，将项目的web目录挂在到容器内，并设置工作目录，在。。。
+指定镜像后，使用`volumes`参数将项目的web目录挂在到容器内，并使用`working_dir`参数设置工作目录。
+由于项目中HaProxy进行了负载均衡代理，所以并不需要暴露端口，如需映射端口到宿主机可以将`ports`参数设置为8000:8000。
 
-未完待续
+在web容器中需要链接`mysql`容器与`redis`容器中的服务，所以用`depends_on`制定依赖的容器，这样会先启动`mysql`容器与`redis`容器，再启动`web`容器，并且在`web`中使用'mysql'、'redis'即可连接到对应的服务。
+
+在web项目中有一些关键的配置参数，我们可以通过环境变量传入，这样通过docker-compose.yml文件即可管理项目配置。此处我们传入了，Django项目秘钥，MySQL的服务主机地址即'mysql'字符串，与mysql容器一致的root用户密码，创建好的数据库名称，Redis服务主机地址即'redis'字符串。
+
+最后是容器启动后执行的命令：
+
+```
+sh ./run.sh
+```
+
+因为将`web`目录挂在到了容器内，并且工作目录与项目目录相同，所以`run.sh`脚本在容器的当前目录下。我们来看下次脚本：
+
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+uwsgi --ini /usr/src/app/web/uwsgi.ini
+tail -f /usr/src/app/logs/uwsgi.log
+```
+
+因为不知道是否是第一次运行容器，所以加了迁移命令，第一次运行时会在数据库中创建所需的表。之后运行也不会引起错误。
+
+然后使用uwsgi启动项目。最后监听uwsgi日志文件，并输出到终端，这样才不会使容器退出。
+
+### Celery
+
+`celery`任务队列的代码是写在Django项目中的，使用了web容器相同的环境与配置。唯一的区别是容器启动后的运行命令。
+
+### HaProxy
+
+`haproxy`是一个性能极高的代理软件，我们在这里用作负载均衡的转发工作。这里使用了[dockercloud/haproxy](https://hub.docker.com/r/dockercloud/haproxy/)镜像，将容器80端口映射至宿主机的80端口，并指定连接的容器名`web`，更多用法可以查阅dockercloud/haproxy镜像页面描述。
+
+## 启动项目
+
+### 初始化MySQL
+
+这里会创建一个`MySQL`数据库，方便`Django`服务端连接。
+
+```
+docker-compose -f docker-compose-mysql.yaml up -d
+
+mysql -u root -h 0.0.0.0 -p
+```
+
+执行SQL，创建数据库，修改时区。
+
+```
+CREATE DATABASE mydb CHARACTER SET utf8 COLLATE utf8_general_ci;
+SET time_zone = 'Asia/Shanghai';
+```
+
+如果你有一个远程的`MySQL`服务器，可将docker-compose.yaml中mysql容器及对mysql容器的依赖注释掉，并在docker-compose.yaml中将web容器与celery容器环境变量参数`environment`中`MYSQL_HOST`的数值修改为远程MySQL的IP。
+
+### 启动项目
+
+这里会为 mysql、web、redis、haproxy创建容器。
+
+```
+docker-compose up -d
+
+```
+
+因为`Haproxy`的存在，可以开启多个web容器，支持负载均衡。
+
+```
+docker-compose up -d --scale web=2
+```
+
+### 访问页面
+
+打开浏览器，访问 http://0.0.0.0/ ，创建一个运算任务、任务执行结束后，页面会刷新任务列表。
+
+
+### 删除所有容器
+
+```
+docker-compose down
+```
 
 <script>
 var _hmt = _hmt || [];
